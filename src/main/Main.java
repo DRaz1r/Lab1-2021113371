@@ -215,7 +215,7 @@ public class Main {
         }
     }
 }
-// 命令行交互式代码
+// 命令行交互式
 //public class Main {
 //    public static void main(String[] args) {
 //        Graph graph = new Graph();
