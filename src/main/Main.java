@@ -569,6 +569,17 @@ class Graph {
         if (! nodes.containsKey(startWord)) {
             return "No startWord in the graph!";
         }
+        Map<String, Map<String, Boolean>> valid = new HashMap<>();
+        for (String node : nodes.keySet()) {
+            if (adjList.containsKey(node)) {
+                Map<String, Integer> neighbors = adjList.get(node);
+                Map<String, Boolean> validTemp = new HashMap<>();
+                for (Map.Entry<String, Integer> neighbor : neighbors.entrySet()) {
+                    validTemp.put(neighbor.getKey(), false);
+                }
+                valid.put(node, validTemp);
+            }
+        }
         StringBuilder walk = new StringBuilder(startWord);
         String currentWord = startWord;
 
@@ -577,14 +588,22 @@ class Graph {
             int totalWeight = neighbors.values().stream().mapToInt(Integer::intValue).sum();
             int rand = random.nextInt(totalWeight);
             int cumulativeWeight = 0;
-
+            boolean duplicateEdge = false;
             for (Map.Entry<String, Integer> neighbor : neighbors.entrySet()) {
                 cumulativeWeight += neighbor.getValue();
-                if (rand < cumulativeWeight) {
+                if (rand < cumulativeWeight ) {
+                    if (valid.get(currentWord).get(neighbor.getKey()) == true ) {
+                        duplicateEdge = true;
+                        break;
+                    }
+                    valid.get(currentWord).put(neighbor.getKey(), true);
                     currentWord = neighbor.getKey();
                     walk.append(" -> ").append(currentWord);
                     break;
                 }
+            }
+            if (duplicateEdge) {
+                break;
             }
         }
         return "Random walk starting from " + startWord + ": " + walk;
