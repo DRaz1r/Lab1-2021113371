@@ -1,5 +1,3 @@
-package main;
-
 import java.awt.geom.Line2D;
 import java.io.*;
 import java.util.List;
@@ -215,62 +213,6 @@ public class Main {
         }
     }
 }
-// 命令行交互式
-//public class Main {
-//    public static void main(String[] args) {
-//        Graph graph = new Graph();
-//        Scanner scanner = new Scanner(System.in);
-//        try {
-//            System.out.print("Enter text file path (Absolute path or relative path in this project):");
-//            String readTxtFilePath = scanner.nextLine();
-//            System.out.println(readTxtFilePath);
-//            graph.readFromFile(readTxtFilePath);
-//            graph.displayGraph();
-//            graph.saveGraphToFile("resources/outputPng.png");
-//            while (true) {
-//                System.out.println("Enter command (1: Bridge Words, 2: Generate New Text, 3: Shortest Path, 4: Random Walk, 5: Exit):");
-//                int command = scanner.nextInt();
-//                scanner.nextLine(); // consume newline
-//
-//                switch (command) {
-//                    case 1:
-//                        System.out.println("Enter word1:");
-//                        String word1 = scanner.nextLine();
-//                        System.out.println("Enter word2:");
-//                        String word2 = scanner.nextLine();
-//                        System.out.println(graph.findBridgeWords(word1, word2));
-//                        break;
-//                    case 2:
-//                        System.out.println("Enter new text:");
-//                        String newText = scanner.nextLine();
-//                        System.out.println(graph.generateNewText(newText));
-//                        break;
-//                    case 3:
-//                        System.out.println("Enter start word:");
-//                        String startWord = scanner.nextLine();
-//                        System.out.println("Enter end word:");
-//                        String endWord = scanner.nextLine();
-//                        System.out.println(graph.shortestPath(startWord, endWord));
-//                        break;
-//                    case 4:
-//                        System.out.println("Enter start word for random walk:");
-//                        System.out.println(graph.randomWalk());
-//                        break;
-//                    case 5:
-//                        scanner.close();
-//                        return;
-//                    default:
-//                        System.out.println("Invalid command.");
-//                }
-//            }
-//        } catch (IOException e) {
-//            System.err.println("Error reading file: " + e.getMessage());
-//        } catch (GraphException e) {
-//            System.err.println("Graph error: " + e.getMessage());
-//        }
-//    }
-//}
-
 
 class Node {
     private final String word;
@@ -440,7 +382,7 @@ class Graph {
         }
     }
 
-    private void addEdge(String word1, String word2) {
+    public void addEdge(String word1, String word2) {
         nodes.putIfAbsent(word1, new Node(word1));
         nodes.putIfAbsent(word2, new Node(word2));
 
