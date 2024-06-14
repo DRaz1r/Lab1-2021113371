@@ -1,5 +1,6 @@
 import java.awt.geom.Line2D;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.*;
 import javax.imageio.ImageIO;
@@ -186,7 +187,7 @@ public class Main {
             String endWord = endWordField.getText();
             String result;
             try {
-                result = graph. calcShortestPath(startWord, endWord);
+                result = graph.calcShortestPath(startWord, endWord);
             } catch (GraphException ex) {
                 result = ex.getMessage();
             }
@@ -201,11 +202,12 @@ public class Main {
             try {
                 result = graph.randomWalk();
                 OutputStream f = new FileOutputStream("randomWalk.txt");
-                f.write(result.getBytes());
+                f.write(result.getBytes(StandardCharsets.UTF_8));
+                //f.write(result.getBytes());
                 f.close();
             } catch (GraphException ex) {
                 result = ex.getMessage();
-            }catch (IOException ex) {
+            } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -356,6 +358,7 @@ class Graph {
     public void readFromFile(String filePath) throws IOException {
         init();
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        //BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8));
         String line;
         while ((line = reader.readLine()) != null) {
             processLine(line);
@@ -417,8 +420,8 @@ class Graph {
         if (bridgeWords.isEmpty()) {
             return "No bridge words from " + word1 + " to " + word2 + "!";
         } else {
-            return "The bridge words from " + word1 + " to " + word2 + " are: " +
-                    String.join(", ", bridgeWords);
+            return "The bridge words from " + word1 + " to " + word2 + " are: "
+                    + String.join(", ", bridgeWords);
         }
     }
 
@@ -490,8 +493,8 @@ class Graph {
             path.add(0, at);
         }
 
-        return "Shortest path from " + word1 + " to " + word2 + " is: " + String.join(" -> ", path) +
-                " with total weight " + distances.get(word2);
+        return "Shortest path from " + word1 + " to " + word2 + " is: " + String.join(" -> ", path)
+                + " with total weight " + distances.get(word2);
     }
 
     public String randomWalk() throws GraphException {
@@ -505,10 +508,10 @@ class Graph {
                 if (currentNodeIndex == randNodeIndex) {
                     startWord = sword;
                 }
-                currentNodeIndex ++;
+                currentNodeIndex++;
             }
         }
-        if (! nodes.containsKey(startWord)) {
+        if (!nodes.containsKey(startWord)) {
             return "No startWord in the graph!";
         }
         Map<String, Map<String, Boolean>> valid = new HashMap<>();
@@ -533,8 +536,8 @@ class Graph {
             boolean duplicateEdge = false;
             for (Map.Entry<String, Integer> neighbor : neighbors.entrySet()) {
                 cumulativeWeight += neighbor.getValue();
-                if (rand < cumulativeWeight ) {
-                    if (valid.get(currentWord).get(neighbor.getKey()) == true ) {
+                if (rand < cumulativeWeight ){
+                    if (valid.get(currentWord).get(neighbor.getKey())){
                         duplicateEdge = true;
                         break;
                     }
